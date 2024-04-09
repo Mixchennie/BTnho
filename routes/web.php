@@ -1,8 +1,11 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,22 +17,24 @@ use App\Http\Controllers\UserController;
 |
 */
 
-// Route::get('/', function () {
-//     return view('homepage');
-// });
 
-// Route::resource('/shop',ProductController::class);
+Route::get('/products/{id}', [ProductController::class, 'show'])->name('detail');
 
-Route::get('/shop/{id}',[ProductController::class,'show'])-> name('product.detail');
+Route::get('/pricing', [ProductController::class, 'showPricing'])->name('showPricing');
 
-Route::get('/',[ProductController::class,'index'])-> name('homepage');
+Route::get('/product-type/{id}', [ProductController::class, 'showProductType'])->name('showProductType');
 
-Route::get('/signup', [UserController::class, 'signup'])->name('signup');
+Route::get('/', [HomeController::class, 'index'])->name('home');
+
+Route::get('/checkout', [HomeController::class, 'showCart'])->name('showCart');
 
 Route::get('/login', [UserController::class, 'login'])->name('login');
 
-Route::get('/product',[ProductController::class,'showProducts'])-> name('product.type');
 
-Route::get('/pricing',[ProductController::class,'showPricing'])-> name('pricing');
+Route::get('/sign-up', [UserController::class, 'signUp'])->name('sign-up');
 
-Route::get('/checkout',[ProductController::class,'checkout'])-> name('checkout');
+Route::get('/about-page', [HomeController::class, 'about'])->name('about-page');
+
+Route::get('/contact-page', [HomeController::class, 'contact'])->name('contact-page');
+
+Route::get('/add-to-cart/{id}', [CartController::class, 'addToCart'])->name('add-to-cart');

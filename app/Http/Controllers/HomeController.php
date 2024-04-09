@@ -2,16 +2,36 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
-
+use App\Models\Products;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
     public function index()
     {
-        $products = Product::all();
+        $products = Products::all();
+        return view('pages/index', compact('products'));
+    }
 
-        return view('homepage', compact('products'));
+    public function showCart()
+    {
+        $products = Products::take(3)->get();
+        return view('checkout', compact('products'));
+       
+    }
+
+    public function login()
+    {
+        return view('pages/login');
+    }
+
+    public function about()
+    {
+        return view('pages/about');
+    }
+
+    public function contact()
+    {
+        return view('pages/contact');
     }
 }
