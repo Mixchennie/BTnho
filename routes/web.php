@@ -1,10 +1,8 @@
 <?php
 
-use App\Http\Controllers\CartController;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,23 +16,21 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::get('/products/{id}', [ProductController::class, 'show'])->name('detail');
 
-Route::get('/pricing', [ProductController::class, 'showPricing'])->name('showPricing');
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
 
-Route::get('/product-type/{id}', [ProductController::class, 'showProductType'])->name('showProductType');
+require __DIR__.'/auth.php';    
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/detail/{id}',[ProductController::class,'index'])->name('detail');
+Route::get('/',[HomeController::class,'index'])->name('index');
 
-Route::get('/checkout', [HomeController::class, 'showCart'])->name('showCart');
-
-Route::get('/login', [UserController::class, 'login'])->name('login');
-
-
-Route::get('/sign-up', [UserController::class, 'signUp'])->name('sign-up');
-
-Route::get('/about-page', [HomeController::class, 'about'])->name('about-page');
-
-Route::get('/contact-page', [HomeController::class, 'contact'])->name('contact-page');
-
-Route::get('/add-to-cart/{id}', [CartController::class, 'addToCart'])->name('add-to-cart');
+// Route::get('/layout',function(){
+//     return view('layout.master');
+// });
+Route::get('/product-type/{id}',[HomeController::class,'getProductType'])->name('getProductType');  
+Route::get('/add-to-cart/{id}', [HomeController::class, 'addToCart'])->name('addToCart');
+Route::get('/list-cart', [HomeController::class, 'listCart']);
+Route::get('/update-cart/{productId}', [HomeController::class, 'updateCart']);
+Route::get('/checkout', [HomeController::class, 'checkout']);
